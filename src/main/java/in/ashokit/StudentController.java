@@ -54,14 +54,14 @@ public class StudentController {
 
 	@PostMapping("/save")
 	public String handleSubmit(Student s, Model model) {
-		
+
 		// logic to save
 
 		StudentEntity entity = new StudentEntity();
 
 		// copy data from binding obj to entity obj
 		BeanUtils.copyProperties(s, entity);
-		
+
 		entity.setTimings(Arrays.toString(s.getTimings()));
 
 		repo.save(entity);
@@ -74,5 +74,17 @@ public class StudentController {
 	}
 
 	// method to display saved students data
+	
+	@GetMapping("/viewStudents")
+	public String getStudentsData(Model model) {
+		
+		// logic to fetch and send students data
+		
+		List<StudentEntity> studentsList = repo.findAll();
+		
+		model.addAttribute("students", studentsList);
+		
+		return "data";
+	}
 
 }
